@@ -16,21 +16,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <!-- ปุ่มกลางจอ -->
       <div class="flex flex-col items-center justify-center flex-1 gap-4">
 
-            <a class="w-64 text-center border-2 border-black bg-green-600 
+            <a href="<?= base_url('index.php/reserve') ?>" class="w-64 text-center border-2 border-black bg-green-600 
                         rounded-md text-white text-2xl p-3
                         hover:bg-green-700 hover:scale-105 
                         transition duration-200">
                   จองห้องประชุม Zoom
             </a>
 
-            <a class="w-64 text-center border-2 border-black bg-green-600 
+            <a href="<?= base_url('index.php/calendar') ?>" class="w-64 text-center border-2 border-black bg-green-600 
                         rounded-md text-white text-2xl p-3
                         hover:bg-green-700 hover:scale-105 
                         transition duration-200">
                   ปฏิทิน
             </a>
 
-            <a class="w-64 text-center border-2 border-black bg-green-600 
+            <a href="<?= base_url('index.php/login') ?>" class="w-64 text-center border-2 border-black bg-green-600 
                         rounded-md text-white text-2xl p-3
                         hover:bg-green-700 hover:scale-105 
                         transition duration-200">
