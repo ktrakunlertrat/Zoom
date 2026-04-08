@@ -21,17 +21,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 
                 <div class="flex flex-col">
                     <label>ชื่อ - นามสกุล</label>
-                    <input type="text" class="border border-black rounded-md px-2 py-1">
+                    <input type="text" class="border border-black rounded-md px-2 py-1" placeholder="ชื่อ - นามสกุล">
                 </div>
 
                 <div class="flex flex-col">
                     <label>Email</label>
-                    <input type="email" class="border border-black rounded-md px-2 py-1">
+                    <input type="email" class="border border-black rounded-md px-2 py-1" placeholder="Email"> 
                 </div>
 
                 <div class="flex flex-col">
                     <label>เบอร์โทร</label>
-                    <input type="text" class="border border-black rounded-md px-2 py-1">
+                    <input type="text" class="border border-black rounded-md px-2 py-1" placeholder="เบอร์โทร">
                 </div>
 
                 <div class="flex flex-col">
@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <div class="flex flex-col">
                     <label>หัวข้อประชุม</label>
-                    <input type="text" class="border border-black rounded-md px-2 py-1">
+                    <input type="text" class="border border-black rounded-md px-2 py-1" placeholder="หัวข้อประชุม">
                 </div>
 
                 <div class="flex flex-col">
@@ -72,8 +72,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <div class="flex flex-col">
                     <label class="mb-2">วัน เริ่มประชุม - เลิกประชุม</label>
+                    <input type="text" id="start_date" placeholder="เลือกวัน" 
+                            class="border border-black rounded-md px-2 py-1 w-full">
                     
-                    <div class="flex items-center gap-2">
+                    <!-- <div class="flex items-center gap-2">
                         <input type="text" id="start_date" placeholder="เลือกวันเริ่ม" 
                             class="border border-black rounded-md px-2 py-1 w-full">
 
@@ -81,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <input type="text" id="end_date" placeholder="เลือกวันสิ้นสุด" 
                             class="border border-black rounded-md px-2 py-1 w-full">
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="flex flex-col">
