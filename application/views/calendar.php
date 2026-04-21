@@ -14,44 +14,35 @@ style="background-image: url('<?= base_url('assets/images/bg.jpg') ?>')">
 </div>
 
 <!-- Layout -->
-<div class="flex flex-1 mt-4">
-  <div class="bg-white backdrop-blur-sm border border-black rounded-xl p-4 w-full h-1/5">
+<div class="flex flex-col flex-1 mt-4 gap-2">
+  <div class="bg-white backdrop-blur-sm border border-black rounded-xl p-4 w-full">
     <div id="calendar"></div>
   </div>
+
+  <!-- ปุ่มอยู่ใต้ปฏิทิน -->
+  <a href="<?= base_url('index.php/') ?>" 
+    class="w-24 text-center bg-gray-400 text-white rounded-md py-2 hover:bg-gray-500 self-start">
+    ย้อนกลับ
+  </a>
 </div>
 
 <!-- Modal -->
 <div id="eventModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center">
-  <div class="bg-white rounded-xl p-6 w-96">
+  <div class="bg-white rounded-xl p-6 w-[700px]">
 
-    <h2 class="text-lg mb-2">จัดการการจอง</h2>
+    <h2 class="text-lg mb-4 font-bold">รายละเอียดการจอง</h2>
 
-    <p id="modal_date" class="mb-2 text-blue-600"></p>
+    <p id="modal_date" class="mb-4 text-blue-600"></p>
 
-    <input type="text" id="modal_title" placeholder="หัวข้อ"
-      class="border w-full mb-2 px-2 py-1 rounded-md">
+    <!-- 👉 ข้อความรวม -->
+    <div id="view_all" class="text-base leading-relaxed"></div>
 
-    <input type="text" id="modal_name" placeholder="ชื่อ - นามสกุล"
-      class="border w-full mb-2 px-2 py-1 rounded-md">
-
-    <input type="text" id="modal_email" placeholder="Email"
-      class="border w-full mb-2 px-2 py-1 rounded-md">
-
-    <input type="text" id="modal_phone" placeholder="เบอร์โทร"
-      class="border w-full mb-2 px-2 py-1 rounded-md">
-
-    <textarea id="modal_desc" placeholder="รายละเอียด"
-      class="border w-full mb-2 px-2 py-1 rounded-md"></textarea>
-
-    <input type="time" id="modal_time"
-      class="border w-full mb-4 px-2 py-1 rounded-md">
-
-    <div class="flex gap-2">
+    <!-- ปุ่ม -->
+    <div class="mt-6">
       <button onclick="closeModal()" 
-        class="w-1/2 bg-gray-400 text-white py-2 rounded-md">ปิด</button>
-
-      <button onclick="saveEvent()" 
-        class="w-1/2 bg-blue-500 text-white py-2 rounded-md">บันทึก</button>
+        class="w-full bg-gray-400 text-white py-2 rounded-md">
+        ปิด
+      </button>
     </div>
 
   </div>
@@ -84,10 +75,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 👉 คลิกวันที่
     dateClick: function(info) {
-      selectedDate = info.dateStr;
-      currentEvent = null;
+      const dateStr = info.dateStr;
 
-      const date = new Date(info.dateStr);
+      const date = new Date(dateStr);
       const day = date.getDate();
       const month = date.toLocaleString('th-TH', { month: 'long' });
       const year = date.getFullYear() + 543;
@@ -95,13 +85,19 @@ document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('modal_date').innerText =
         'วันที่: ' + day + ' ' + month + ' ' + year;
 
+      // 👉 ดึง event ของวันนั้น
+      const events = calendar.getEvents().filter(ev => {
+        return ev.startStr === dateStr;
+      });
+
+      renderEventsToModal(events);
+
       openModal();
     },
 
     // 👉 คลิก event
     eventClick: function(info) {
-      currentEvent = info.event;
-      selectedDate = info.event.startStr;
+      const dateStr = info.event.startStr;
 
       const date = new Date(info.event.start);
       const day = date.getDate();
@@ -111,12 +107,8 @@ document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('modal_date').innerText =
         'วันที่: ' + day + ' ' + month + ' ' + year;
 
-      document.getElementById('modal_title').value = info.event.title;
-      document.getElementById('modal_desc').value = info.event.extendedProps.description || '';
-      document.getElementById('modal_time').value = info.event.extendedProps.time || '';
-      document.getElementById('modal_name').value = info.event.extendedProps.name || '';
-      document.getElementById('modal_email').value = info.event.extendedProps.email || '';
-      document.getElementById('modal_phone').value = info.event.extendedProps.phone || '';
+      // 👉 ใช้ format เดียวกัน (ส่งเป็น array)
+      renderEventsToModal([info.event]);
 
       openModal();
     },
@@ -127,11 +119,53 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     },
 
-    events: []
+    events: [
+      {
+        title: '09:00 - 10:30 ประชุมวางแผนโครงการ',
+        start: '2026-04-21',
+        allDay: true,
+        extendedProps: {
+          time: '09:00 - 10:30',
+          name: 'สมชาย ใจดี',
+          phone: '081-234-5678',
+          description: 'ประชุมวางแผนโครงการ'
+        }
+      },
+      {
+        title: '13:00 - 14:00 ประชุมทีม',
+        start: '2026-04-21',
+        allDay: true,
+        extendedProps: {
+          time: '13:00 - 14:00',
+          name: 'สมหญิง ใจงาม',
+          phone: '089-111-2222',
+          description: 'ประชุมทีมงาน'
+        }
+      }
+    ]
   });
 
   calendar.render();
 });
+
+function renderEventsToModal(events) {
+  if (events.length === 0) {
+    document.getElementById('view_all').innerText = 'ไม่มีรายการจอง';
+    return;
+  }
+
+  let text = '';
+
+  events.forEach(ev => {
+    text += 
+      (ev.extendedProps.time || '-') + ' ' +
+      (ev.extendedProps.description || '-') + ' | ' +
+      (ev.extendedProps.name || '-') + ' | ' +
+      (ev.extendedProps.phone || '-') + '\n';
+  });
+
+  document.getElementById('view_all').innerText = text;
+}
 
 // 👉 เปิด modal
 function openModal() {
@@ -146,12 +180,7 @@ function closeModal() {
   modal.classList.add('hidden');
   modal.classList.remove('flex');
 
-  document.getElementById('modal_title').value = '';
-  document.getElementById('modal_desc').value = '';
-  document.getElementById('modal_time').value = '';
-  document.getElementById('modal_name').value = '';
-  document.getElementById('modal_email').value = '';
-  document.getElementById('modal_phone').value = '';
+  document.getElementById('view_all').innerText = '';
 }
 
 // 👉 บันทึก / แก้ไข
