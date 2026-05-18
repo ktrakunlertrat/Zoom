@@ -4,20 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <link href="<?= base_url('assets/css/output.css') ?>" rel="stylesheet">
 
-<body class="bg-cover bg-center min-h-screen m-4 flex flex-col" 
-    style="background-image: url('<?= base_url('assets/images/bg.jpg') ?>')">
+<body class="bg-cover bg-center min-h-screen m-4 flex flex-col">
 
-        <!-- Header -->
-        <div class="flex items-center gap-4">
-                <img src="<?= base_url('assets/images/dcce.png') ?>" width="100">
-                <p class="text-5xl">ระบบจองห้องประชุม Zoom</p>
-        </div>
-
-        <!-- ปุ่มกลางจอ -->
-        <div class="flex flex-col items-center justify-center flex-1">
-            <div class="bg-white/50 backdrop-blur-sm border border-black rounded-xl p-6 w-96">
+    <!-- ปุ่มกลางจอ -->
+    <div class="flex flex-col items-center justify-center flex-1">
+        <div class="bg-white/50 backdrop-blur-sm border border-black rounded-xl p-6 w-96">
             
-                <form class="flex flex-col gap-4">
+            <form class="flex flex-col gap-4">
                 
                 <div class="flex flex-col">
                     <label>Username</label>
@@ -42,10 +35,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </button>
                 </div>
 
-                </form>
+            </form>
 
-            </div>
         </div>
+    </div>
 
 </body>
 </html>

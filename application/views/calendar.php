@@ -4,14 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <link href="<?= base_url('assets/css/output.css') ?>" rel="stylesheet">
 
-<body class="bg-cover bg-center min-h-screen m-4 flex flex-col" 
-style="background-image: url('<?= base_url('assets/images/bg.jpg') ?>')">
-
-<!-- Header -->
-<div class="flex items-center gap-4">
-    <img src="<?= base_url('assets/images/dcce.png') ?>" width="100">
-    <p class="text-5xl">ระบบจองห้องประชุม Zoom</p>
-</div>
+<body class="bg-cover bg-center min-h-screen m-4 flex flex-col">
 
 <!-- Layout -->
 <div class="flex flex-col flex-1 mt-4 gap-2">
