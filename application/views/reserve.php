@@ -1,35 +1,34 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-<link href="<?= base_url('assets/css/output.css') ?>" rel="stylesheet">
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 
-<body class="bg-cover bg-center min-h-screen m-4 flex flex-col">
+<!-- Container -->
+<div class="flex min-h-screen">
 
     <!-- ปุ่มกลางจอ -->
-    <div class="flex flex-col items-center justify-center flex-1">
+    <div class="flex flex-col items-center justify-start flex-1 pt-6">
         <div class="bg-white/50 backdrop-blur-sm border border-black rounded-xl p-6 w-96">
             
-            <form class="flex flex-col gap-4">
+            <form action="<?= base_url('index.php/reserve/save') ?>" 
+                method="POST"
+                class="flex flex-col gap-4">
                 
                 <div class="flex flex-col">
                     <label>ชื่อ - นามสกุล</label>
-                    <input type="text" class="border border-black rounded-md px-2 py-1" placeholder="ชื่อ - นามสกุล">
+                    <input type="text" name="name" class="border border-black rounded-md px-2 py-1" placeholder="ชื่อ - นามสกุล" required>
                 </div>
 
                 <div class="flex flex-col">
                     <label>Email</label>
-                    <input type="email" class="border border-black rounded-md px-2 py-1" placeholder="Email"> 
+                    <input type="email" name="email" class="border border-black rounded-md px-2 py-1" placeholder="Email" required> 
                 </div>
 
                 <div class="flex flex-col">
                     <label>เบอร์โทร</label>
-                    <input type="text" class="border border-black rounded-md px-2 py-1" placeholder="เบอร์โทร">
+                    <input type="text" name="phone_number" class="border border-black rounded-md px-2 py-1" placeholder="เบอร์โทร" required>
                 </div>
 
                 <div class="flex flex-col">
                     <label>สังกัด</label>
-                    <select name="" id="" class="border border-black rounded-md px-2 py-1">
+                    <select name="affiliation" id="" class="border border-black rounded-md px-2 py-1" required>
                         <option value="" disabled selected>เลือก</option>
                         <option value="สลก.">สลก.</option>
                         <option value="กปอ.">กปอ.</option>
@@ -46,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <div class="flex flex-col">
                     <label>หัวข้อประชุม</label>
-                    <input type="text" class="border border-black rounded-md px-2 py-1" placeholder="หัวข้อประชุม">
+                    <input type="text" name="meeting_topic" class="border border-black rounded-md px-2 py-1" placeholder="หัวข้อประชุม" required>
                 </div>
 
                 <div class="flex flex-col">
@@ -63,32 +62,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </label>
                 </div>
 
-                <div class="flex flex-col">
-                    <label class="mb-2">วัน เริ่มประชุม - เลิกประชุม</label>
-                    <input type="text" id="start_date" placeholder="เลือกวัน" 
-                            class="border border-black rounded-md px-2 py-1 w-full">
-                    
-                    <!-- <div class="flex items-center gap-2">
-                        <input type="text" id="start_date" placeholder="เลือกวันเริ่ม" 
-                            class="border border-black rounded-md px-2 py-1 w-full">
-
-                        <span>ถึง</span>
-
-                        <input type="text" id="end_date" placeholder="เลือกวันสิ้นสุด" 
-                            class="border border-black rounded-md px-2 py-1 w-full">
-                    </div> -->
-                </div>
-
-                <div class="flex flex-col">
-                    <label class="mb-2">เวลา เริ่มประชุม - เลิกประชุม</label>
+                <!-- วันเวลาเริ่มประชุม -->
+                <div class="flex flex-col gap-2">
+                    <label>วัน เวลา เริ่มประชุม</label>
 
                     <div class="flex items-center gap-2">
-                        <input type="time" id="start_time"
+                        <input type="text" id="start_date" name="start_date"
+                            placeholder="เลือกวัน"
                             class="border border-black rounded-md px-2 py-1 w-full">
 
-                        <span>ถึง</span>
+                        <input type="text" id="start_time" name="start_time"
+                            placeholder="เลือกเวลา"
+                            class="border border-black rounded-md px-2 py-1 w-full">
+                    </div>
+                </div>
 
-                        <input type="time" id="end_time"
+                <!-- วันเวลาเลิกประชุม -->
+                <div class="flex flex-col gap-2">
+                    <label>วัน เวลา เลิกประชุม</label>
+
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="end_date" name="end_date"
+                            placeholder="เลือกวัน"
+                            class="border border-black rounded-md px-2 py-1 w-full">
+
+                        <input type="text" id="end_time" name="end_time"
+                            placeholder="เลือกเวลา"
                             class="border border-black rounded-md px-2 py-1 w-full">
                     </div>
                 </div>
@@ -111,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 
-</body>
+</div>
 </html>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -137,5 +136,19 @@ flatpickr("#end_date", {
   onChange: function(selectedDates, dateStr, instance) {
     instance.input.value = toThaiYear(selectedDates[0]);
   }
+});
+
+flatpickr("#start_time", {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    time_24hr: true
+});
+
+flatpickr("#end_time", {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    time_24hr: true
 });
 </script>

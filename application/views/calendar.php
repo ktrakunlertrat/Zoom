@@ -57,7 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   window.calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
-    height: 'auto',
+    height: 650,
+    slotMinTime: '00:00:00',
+    slotMaxTime: '24:00:00',
+    scrollTime: '08:00:00',
     locale: 'th',
 
     headerToolbar: {
@@ -97,8 +100,28 @@ document.addEventListener('DOMContentLoaded', function () {
       const month = date.toLocaleString('th-TH', { month: 'long' });
       const year = date.getFullYear() + 543;
 
-      document.getElementById('modal_date').innerText =
-        'วันที่: ' + day + ' ' + month + ' ' + year;
+      const startDate = new Date(info.event.start);
+      const endDate = info.event.end ? new Date(info.event.end) : null;
+
+      const startDay = startDate.getDate();
+      const startMonth = startDate.toLocaleString('th-TH', { month: 'long' });
+      const startYear = startDate.getFullYear() + 543;
+
+      let dateText = 'วันที่: ' + startDay + ' ' + startMonth + ' ' + startYear;
+
+      // ถ้ามี end_date และคนละวัน
+      if (
+          endDate &&
+          startDate.toDateString() !== endDate.toDateString()
+      ) {
+          const endDay = endDate.getDate();
+          const endMonth = endDate.toLocaleString('th-TH', { month: 'long' });
+          const endYear = endDate.getFullYear() + 543;
+
+          dateText += ' - ' + endDay + ' ' + endMonth + ' ' + endYear;
+      }
+
+      document.getElementById('modal_date').innerText = dateText;
 
       // 👉 ใช้ format เดียวกัน (ส่งเป็น array)
       renderEventsToModal([info.event]);
@@ -113,28 +136,31 @@ document.addEventListener('DOMContentLoaded', function () {
     },
 
     events: [
-      {
-        title: '09:00 - 10:30 ประชุมวางแผนโครงการ',
-        start: '2026-05-20',
-        allDay: true,
+
+    <?php foreach($reserve as $row): ?>
+
+    {
+        title: '<?= $row->start_time ?> - <?= $row->end_time ?> <?= $row->meeting_topic ?>',
+
+        start: '<?= $row->start_date ?>T<?= $row->start_time ?>:00',
+
+        end: '<?= $row->end_date ?>T<?= $row->end_time ?>:00',
+
+        allDay: false,
+
         extendedProps: {
-          time: '09:00 - 10:30',
-          name: 'สมชาย ใจดี',
-          phone: '081-234-5678',
-          description: 'ประชุมวางแผนโครงการ'
+            time: '<?= $row->start_time ?> - <?= $row->end_time ?>',
+            name: '<?= $row->name ?>',
+            phone: '<?= $row->phone_number ?>',
+            description: '<?= $row->meeting_topic ?>',
+            email: '<?= $row->email ?>',
+            affiliation: '<?= $row->affiliation ?>',
+            room_size: '<?= $row->room_size ?>'
         }
-      },
-      {
-        title: '13:00 - 14:00 ประชุมทีม',
-        start: '2026-05-20',
-        allDay: true,
-        extendedProps: {
-          time: '13:00 - 14:00',
-          name: 'สมหญิง ใจงาม',
-          phone: '089-111-2222',
-          description: 'ประชุมทีมงาน'
-        }
-      }
+    },
+
+    <?php endforeach; ?>
+
     ]
   });
 
@@ -174,46 +200,5 @@ function closeModal() {
   modal.classList.remove('flex');
 
   document.getElementById('view_all').innerText = '';
-}
-
-// 👉 บันทึก / แก้ไข
-function saveEvent() {
-  const title = document.getElementById('modal_title').value;
-  const desc = document.getElementById('modal_desc').value;
-  const time = document.getElementById('modal_time').value;
-  const name = document.getElementById('modal_name').value;
-  const email = document.getElementById('modal_email').value;
-  const phone = document.getElementById('modal_phone').value;
-
-  if (!title || !selectedDate) {
-    alert('กรุณากรอกข้อมูล');
-    return;
-  }
-
-  if (currentEvent) {
-    // แก้ไข
-    currentEvent.setProp('title', title);
-    currentEvent.setExtendedProp('description', desc);
-    currentEvent.setExtendedProp('time', time);
-    currentEvent.setExtendedProp('name', name);
-    currentEvent.setExtendedProp('email', email);
-    currentEvent.setExtendedProp('phone', phone);
-  } else {
-    // เพิ่มใหม่
-    calendar.addEvent({
-      title: title + (time ? ' (' + time + ')' : ''),
-      start: selectedDate,
-      allDay: true,
-      extendedProps: {
-        description: desc,
-        time: time,
-        name: name,
-        email: email,
-        phone: phone
-      }
-    });
-  }
-
-  closeModal();
 }
 </script>
