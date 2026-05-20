@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>DCCE | Reserve a zoom meeting room</title>
+	<title>DCCE | ระบบจองห้องประชุม Zoom</title>
 	<link rel="icon" type="image/png" href="<?= base_url('assets/images/dcce.png') ?>">
 </head>
 </html>

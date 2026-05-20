@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
     events: [
       {
         title: '09:00 - 10:30 ประชุมวางแผนโครงการ',
-        start: '2026-04-21',
+        start: '2026-05-20',
         allDay: true,
         extendedProps: {
           time: '09:00 - 10:30',
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
       },
       {
         title: '13:00 - 14:00 ประชุมทีม',
-        start: '2026-04-21',
+        start: '2026-05-20',
         allDay: true,
         extendedProps: {
           time: '13:00 - 14:00',

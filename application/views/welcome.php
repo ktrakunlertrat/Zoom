@@ -4,33 +4,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <link href="<?= base_url('assets/css/output.css') ?>" rel="stylesheet">
 
-<body class="bg-cover bg-center min-h-screen m-4 flex flex-col">
-      
-      <!-- ปุ่มกลางจอ -->
-      <div class="flex flex-col items-center justify-center flex-1 gap-4">
+<body class="min-h-screen">
 
-            <a href="<?= base_url('index.php/reserve') ?>" class="w-64 text-center border-2 border-black bg-gray-300 
-                        rounded-md text-black text-2xl p-3
-                        hover:bg-gray-700 hover:text-white hover:scale-105 
-                        transition duration-200">
-                  จองห้องประชุม Zoom
+    <!-- Container -->
+    <div class="flex min-h-screen">
+
+        <!-- ฝั่งซ้าย -->
+        <div class="w-full md:w-1/2 flex flex-col justify-start items-center px-10 gap-5 pt-24">
+
+            <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center">
+                ระบบจองห้องประชุม Zoom
+            </h1>
+
+            <a href="<?= base_url('index.php/reserve') ?>" 
+               class="w-72 text-center border-2 border-black bg-gray-300 
+                      rounded-md text-black text-lg p-3
+                      hover:bg-gray-700 hover:text-white hover:scale-105 
+                      transition duration-200">
+                แบบฟอร์มจองห้องประชุมออนไลน์
             </a>
 
-            <a href="<?= base_url('index.php/calendar') ?>" class="w-64 text-center border-2 border-black bg-gray-300 
-                        rounded-md text-black text-2xl p-3
-                        hover:bg-gray-700 hover:text-white hover:scale-105 
-                        transition duration-200">
-                  ปฏิทิน
+            <p class="text-red-600 text-sm md:text-base font-semibold text-center -mt-2">
+                  *กรุณาตรวจสอบตารางจองก่อนและหลังทำการจองทุกครั้ง
+            </p>
+
+            <a href="<?= base_url('index.php/calendar') ?>" 
+               class="w-72 text-center border-2 border-black bg-gray-300 
+                      rounded-md text-black text-lg p-3
+                      hover:bg-gray-700 hover:text-white hover:scale-105 
+                      transition duration-200">
+                ตารางจองห้องประชุมออนไลน์
             </a>
 
-            <a href="<?= base_url('index.php/login') ?>" class="w-64 text-center border-2 border-black bg-gray-300 
-                        rounded-md text-black text-2xl p-3
-                        hover:bg-gray-700 hover:text-white hover:scale-105 
-                        transition duration-200">
-                  เข้าสู่ระบบ
+            <a href="<?= base_url('index.php/login') ?>" 
+               class="w-72 text-center border-2 border-black bg-gray-300 
+                      rounded-md text-black text-lg p-3
+                      hover:bg-gray-700 hover:text-white hover:scale-105 
+                      transition duration-200">
+                เข้าสู่ระบบ
             </a>
 
-      </div>
+        </div>
+
+        <!-- ฝั่งขวา -->
+        <div class="hidden md:flex w-1/2 items-start justify-center pt-16">
+            <img src="<?= base_url('assets/images/video_conference.png') ?>" 
+                 alt="Video Conference"
+                 class="w-full">
+        </div>
+
+    </div>
 
 </body>
 </html>
