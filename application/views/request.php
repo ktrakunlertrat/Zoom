@@ -134,7 +134,7 @@
                             </td>
                             <td class="border border-black px-3 py-2 text-center">
 
-                                <a href="<?= base_url('index.php/request/add_zoom/'.$row->id) ?>"
+                                <a href="<?= base_url('index.php/addzoom/index/'.$row->id) ?>"
                                     class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm">
 
                                     เพิ่ม
