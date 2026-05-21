@@ -1,0 +1,76 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Request extends CI_Controller {
+
+    public function index()
+    {
+        $this->load->database();
+
+        // จำนวนต่อหน้า
+        $limit = 10;
+
+        // หน้าปัจจุบัน
+        $page = $this->input->get('page');
+
+        if(!$page || $page < 1){
+            $page = 1;
+        }
+
+        // offset
+        $offset = ($page - 1) * $limit;
+
+        // keyword ค้นหา
+        $keyword = $this->input->get('keyword');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Query สำหรับนับจำนวนทั้งหมด
+        |--------------------------------------------------------------------------
+        */
+
+        if(!empty($keyword)){
+
+            $this->db->group_start();
+            $this->db->like('name', $keyword);
+            $this->db->or_like('meeting_topic', $keyword);
+            $this->db->group_end();
+
+        }
+
+        $total_rows = $this->db->count_all_results('reserve');
+
+        // จำนวนหน้าทั้งหมด
+        $total_pages = ceil($total_rows / $limit);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Query สำหรับดึงข้อมูล
+        |--------------------------------------------------------------------------
+        */
+
+        if(!empty($keyword)){
+
+            $this->db->group_start();
+            $this->db->like('name', $keyword);
+            $this->db->or_like('meeting_topic', $keyword);
+            $this->db->group_end();
+
+        }
+
+        $data['reserve'] = $this->db
+            ->order_by('id', 'DESC')
+            ->limit($limit, $offset)
+            ->get('reserve')
+            ->result();
+
+        // ส่งค่าไป view
+        $data['current_page'] = $page;
+        $data['total_pages'] = $total_pages;
+        $data['keyword'] = $keyword;
+
+        $this->load->view('header');
+        $this->load->view('navbar');
+        $this->load->view('request', $data);
+    }
+}
