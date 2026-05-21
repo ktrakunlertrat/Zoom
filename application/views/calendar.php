@@ -47,6 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- FullCalendar -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.8/index.global.min.js"></script>
 
 <script>
 let selectedDate = null;
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
     slotMaxTime: '24:00:00',
     scrollTime: '08:00:00',
     locale: 'th',
+    googleCalendarApiKey: 'AIzaSyDRlX_l8gCFIUh0WSSNLNq0baYnVNuS7Vo',
 
     headerToolbar: {
       left: 'prev,next today',
@@ -83,7 +85,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // 👉 ดึง event ของวันนั้น
       const events = calendar.getEvents().filter(ev => {
-        return ev.startStr === dateStr;
+
+          const startDate = ev.start.toISOString().split('T')[0];
+
+          return startDate === dateStr;
+
       });
 
       renderEventsToModal(events);
@@ -135,6 +141,18 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     },
 
+    eventSources: [
+
+      // วันหยุดไทย
+      {
+        googleCalendarId: 'th.th#holiday@group.v.calendar.google.com',
+        className: 'holiday-event',
+        color: '#FDE68A',
+        textColor: '#000'
+      }
+
+    ],
+
     events: [
 
     <?php foreach($reserve as $row): ?>
@@ -168,22 +186,28 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function renderEventsToModal(events) {
+
   if (events.length === 0) {
     document.getElementById('view_all').innerText = 'ไม่มีรายการจอง';
     return;
   }
 
-  let text = '';
+  // เรียงตามเวลา
+  events.sort((a, b) => a.start - b.start);
+
+  let html = '';
 
   events.forEach(ev => {
-    text += 
-      (ev.extendedProps.time || '-') + ' ' +
-      (ev.extendedProps.description || '-') + ' | ' +
-      (ev.extendedProps.name || '-') + ' | ' +
-      (ev.extendedProps.phone || '-') + '\n';
+
+    html += `
+      <div class="py-2 border-b">
+        ${ev.extendedProps.time} ${ev.extendedProps.description}
+      </div>
+    `;
+
   });
 
-  document.getElementById('view_all').innerText = text;
+  document.getElementById('view_all').innerHTML = html;
 }
 
 // 👉 เปิด modal
