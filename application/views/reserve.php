@@ -7,7 +7,7 @@
     <div class="flex flex-col items-center justify-start flex-1 pt-6">
         <div class="bg-white/50 backdrop-blur-sm border border-black rounded-xl p-6 w-96">
             
-            <form action="<?= base_url('index.php/reserve/save') ?>" 
+            <form id="reserveForm" action="<?= base_url('index.php/reserve/save') ?>" 
                 method="POST"
                 class="flex flex-col gap-4">
                 
@@ -150,5 +150,53 @@ flatpickr("#end_time", {
     noCalendar: true,
     dateFormat: "H:i",
     time_24hr: true
+});
+
+function convertThaiDateToISO(thaiDate) {
+
+    // รูปแบบ dd/mm/yyyy
+    const parts = thaiDate.split('/');
+
+    if(parts.length !== 3) return null;
+
+    const day = parts[0];
+    const month = parts[1];
+    const year = parseInt(parts[2]) - 543;
+
+    return `${year}-${month}-${day}`;
+}
+
+document.getElementById('reserveForm').addEventListener('submit', function(e){
+
+    const startDateThai = document.getElementById('start_date').value;
+    const endDateThai = document.getElementById('end_date').value;
+
+    const startTime = document.getElementById('start_time').value;
+    const endTime = document.getElementById('end_time').value;
+
+    // เช็คค่าว่าง
+    if(!startDateThai || !endDateThai || !startTime || !endTime){
+
+        alert('กรุณาเลือกวันและเวลาให้ครบ');
+        e.preventDefault();
+        return;
+    }
+
+    // แปลง พ.ศ. -> ค.ศ.
+    const startDate = convertThaiDateToISO(startDateThai);
+    const endDate = convertThaiDateToISO(endDateThai);
+
+    // รวมวัน + เวลา
+    const startDateTime = new Date(startDate + 'T' + startTime);
+    const endDateTime = new Date(endDate + 'T' + endTime);
+
+    // เช็ควันเวลา
+    if(startDateTime >= endDateTime){
+
+        alert('วันเวลาเริ่มประชุม ต้องน้อยกว่าวันเวลาเลิกประชุม');
+        e.preventDefault();
+        return;
+    }
+
 });
 </script>
