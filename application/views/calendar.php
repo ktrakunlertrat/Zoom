@@ -28,7 +28,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <p id="modal_date" class="mb-4 text-blue-600"></p>
 
     <!-- 👉 ข้อความรวม -->
-    <div id="view_all" class="text-base leading-relaxed"></div>
+    <div id="view_all" 
+      class="text-base leading-relaxed max-h-[400px] overflow-y-auto pr-2">
+    </div>
 
     <!-- ปุ่ม -->
     <div class="mt-6">
@@ -59,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
   window.calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     height: 650,
+    displayEventTime: false,
     slotMinTime: '00:00:00',
     slotMaxTime: '24:00:00',
     scrollTime: '08:00:00',
@@ -158,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <?php foreach($reserve as $row): ?>
 
     {
-        title: '<?= $row->start_time ?> - <?= $row->end_time ?> <?= $row->meeting_topic ?>',
+        title: <?= json_encode($row->start_time . ' - ' . $row->end_time . ' - ' . $row->meeting_topic) ?>,
 
         start: '<?= $row->start_date ?>T<?= $row->start_time ?>:00',
 
@@ -167,13 +170,14 @@ document.addEventListener('DOMContentLoaded', function () {
         allDay: false,
 
         extendedProps: {
-            time: '<?= $row->start_time ?> - <?= $row->end_time ?>',
-            name: '<?= $row->name ?>',
-            phone: '<?= $row->phone_number ?>',
-            description: '<?= $row->meeting_topic ?>',
-            email: '<?= $row->email ?>',
-            affiliation: '<?= $row->affiliation ?>',
-            room_size: '<?= $row->room_size ?>'
+            name: <?= json_encode($row->name) ?>,
+            affiliation: <?= json_encode($row->affiliation) ?>,
+            phone_number: <?= json_encode($row->phone_number) ?>,
+            email: <?= json_encode($row->email) ?>,
+            time: <?= json_encode($row->start_time . ' - ' . $row->end_time) ?>,
+            topic: <?= json_encode($row->meeting_topic) ?>,
+            zoom_number: <?= json_encode($row->zoom_number) ?>,
+            details: <?= json_encode($row->details) ?>
         }
     },
 
@@ -185,29 +189,63 @@ document.addEventListener('DOMContentLoaded', function () {
   calendar.render();
 });
 
+function showValue(value) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === '' ||
+        value === 'null'
+    ) {
+        return 'ไม่มีข้อมูล';
+    }
+
+    return value;
+}
+
 function renderEventsToModal(events) {
 
-  if (events.length === 0) {
-    document.getElementById('view_all').innerText = 'ไม่มีรายการจอง';
-    return;
-  }
+    if (events.length === 0) {
 
-  // เรียงตามเวลา
-  events.sort((a, b) => a.start - b.start);
+        document.getElementById('view_all').innerText = 'ไม่มีรายการจอง';
+        return;
+    }
 
-  let html = '';
+    // เรียงตามเวลา
+    events.sort((a, b) => a.start - b.start);
 
-  events.forEach(ev => {
+    let html = '';
 
-    html += `
-      <div class="py-2 border-b">
-        ${ev.extendedProps.time} ${ev.extendedProps.description}
-      </div>
-    `;
+    events.forEach(ev => {
 
-  });
+        html += `
+        <div class="py-4 border-b">
 
-  document.getElementById('view_all').innerHTML = html;
+            <div class="mb-1">
+                <strong>ชื่อผู้จอง:</strong>
+                ${ev.extendedProps.name} , สังกัด: ${ev.extendedProps.affiliation} , Tel: ${ev.extendedProps.phone_number}
+                <br>
+                , Email: ${ev.extendedProps.email} 
+            </div>
+
+            <div class="mb-1">
+                <strong>Time:</strong>
+                ${ev.extendedProps.time}
+            </div>
+
+            <div class="font-semibold text-black">
+                ${showValue(ev.extendedProps.zoom_number)}
+            </div>
+
+            <div class="text-sm whitespace-pre-line">
+                ${showValue(ev.extendedProps.details)}
+            </div>
+
+        </div>
+        `;
+    });
+
+    document.getElementById('view_all').innerHTML = html;
 }
 
 // 👉 เปิด modal
