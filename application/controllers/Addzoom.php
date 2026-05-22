@@ -72,29 +72,68 @@ class Addzoom extends CI_Controller {
     {
         $this->load->database();
 
-        $data = array(
-            'name' => $this->input->post('name'),
-            'email' => $this->input->post('email'),
-            'phone_number' => $this->input->post('phone_number'),
-            'affiliation' => $this->input->post('affiliation'),
-            'meeting_topic' => $this->input->post('meeting_topic'),
-            'room_size' => $this->input->post('room_size'),
-            'start_date' => $this->convertThaiDate($this->input->post('start_date')),
-            'start_time' => $this->input->post('start_time'),
-            'end_date' => $this->convertThaiDate($this->input->post('end_date')),
-            'end_time' => $this->input->post('end_time'),
-            'zoom_number' => $this->input->post('zoom_number'),
-            'details' => $this->input->post('details')
+        // รับค่าจาก form
+        $name = $this->input->post('name');
+        $email = $this->input->post('email');
+        $phone_number = $this->input->post('phone_number');
+        $affiliation = $this->input->post('affiliation');
+        $meeting_topic = $this->input->post('meeting_topic');
+        $room_size = $this->input->post('room_size');
+
+        $start_date = $this->convertThaiDate(
+            $this->input->post('start_date')
         );
 
-        $this->db->where('id', $id);
-        $this->db->update('reserve', $data);
+        $start_time = $this->input->post('start_time');
 
-        echo "
-        <script>
-            alert('บันทึกข้อมูลสำเร็จ');
-            window.location.href='".base_url('index.php/request')."';
-        </script>
-        ";
+        $end_date = $this->convertThaiDate(
+            $this->input->post('end_date')
+        );
+
+        $end_time = $this->input->post('end_time');
+
+        $zoom_number = $this->input->post('zoom_number');
+        $details = $this->input->post('details');
+
+        // รวมข้อมูล
+        $data = array(
+            'name' => $name,
+            'email' => $email,
+            'phone_number' => $phone_number,
+            'affiliation' => $affiliation,
+            'meeting_topic' => $meeting_topic,
+            'room_size' => $room_size,
+            'start_date' => $start_date,
+            'start_time' => $start_time,
+            'end_date' => $end_date,
+            'end_time' => $end_time,
+            'zoom_number' => $zoom_number,
+            'details' => $details
+        );
+
+        // update
+        $this->db->where('id', $id);
+
+        $update = $this->db->update('reserve', $data);
+
+        // เช็คสำเร็จ
+        if($update){
+
+            echo "
+            <script>
+                alert('บันทึกข้อมูลสำเร็จ');
+                window.location.href='".base_url('index.php/request')."';
+            </script>
+            ";
+
+        } else {
+
+            echo "
+            <script>
+                alert('บันทึกข้อมูลไม่สำเร็จ');
+                history.back();
+            </script>
+            ";
+        }
     }
 }
