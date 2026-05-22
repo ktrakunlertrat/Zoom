@@ -65,8 +65,9 @@
                             <th class="border border-black px-3 py-2">เวลาเริ่ม</th>
                             <th class="border border-black px-3 py-2">วันสิ้นสุด</th>
                             <th class="border border-black px-3 py-2">เวลาสิ้นสุด</th>
-                            <th class="border border-black px-3 py-2">สถานะ</th>
+                            <th class="border border-black px-3 py-2">ห้อง</th>
                             <th class="border border-black px-3 py-2">เพิ่มห้องประชุม</th>
+                            <th class="border border-black px-3 py-2">ส่งอีเมล์</th>
                         </tr>
 
                     </thead>
@@ -125,14 +126,14 @@
 
                                 <?php if(empty($row->zoom_number)): ?>
 
-                                    <span class="bg-red-500 text-white px-2 py-1 rounded-md text-xs">
-                                        ยังไม่ได้เพิ่ม
+                                    <span class="text-red-500 px-2 py-1 rounded-md text-xs">
+                                        ว่าง
                                     </span>
 
                                 <?php else: ?>
 
-                                    <span class="bg-green-500 text-white px-2 py-1 rounded-md text-xs">
-                                        เพิ่มแล้ว
+                                    <span class="text-black px-2 py-1 rounded-md text-xs">
+                                        <?= $row->zoom_number ?>
                                     </span>
 
                                 <?php endif; ?>
@@ -155,6 +156,27 @@
                                         class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md text-sm">
 
                                         แก้ไข
+
+                                    </a>
+
+                                <?php endif; ?>
+
+                            </td>
+
+                            <td class="border border-black px-3 py-2 text-center">
+
+                                <?php if(empty($row->zoom_number)): ?>
+
+                                    <span class="text-red-500 px-2 py-1 rounded-md text-xs">
+                                        ส่งไม่ได้
+                                    </span>
+
+                                <?php else: ?>
+
+                                    <a href="<?= base_url('index.php/sendemail/index/'.$row->id) ?>"
+                                        class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm">
+
+                                        ส่งอีเมล์
 
                                     </a>
 
