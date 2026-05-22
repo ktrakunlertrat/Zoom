@@ -1,122 +1,223 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 
 <!-- Container -->
-<div class="flex min-h-screen">
+<div class="min-h-screen p-4">
 
-    <!-- ปุ่มกลางจอ -->
-    <div class="flex flex-col items-center justify-start flex-1 pt-6">
-        <div class="bg-white/50 backdrop-blur-sm border border-black rounded-xl p-6 w-96">
-            
-            <form id="reserveForm" action="<?= base_url('index.php/addzoom/update/'.$reserve->id) ?>"
-                method="POST"
-                class="flex flex-col gap-4">
-                <input type="hidden" name="id" value="<?= $reserve->id ?>">
-                
-                <div class="flex flex-col">
-                    <label>ชื่อ - นามสกุล</label>
-                    <input type="text" name="name" value="<?= $reserve->name ?>" class="border border-black rounded-md px-2 py-1" placeholder="ชื่อ - นามสกุล" required>
-                </div>
+    <!-- Card -->
+    <div class="bg-white/50 backdrop-blur-sm border border-black rounded-2xl p-5 w-full max-w-6xl mx-auto shadow-lg max-h-[90vh]">
 
-                <div class="flex flex-col">
-                    <label>Email</label>
-                    <input type="email" name="email" value="<?= $reserve->email ?>" class="border border-black rounded-md px-2 py-1" placeholder="Email" required> 
-                </div>
+        <form id="reserveForm" 
+            action="<?= base_url('index.php/addzoom/update/'.$reserve->id) ?>"
+            method="POST">
 
-                <div class="flex flex-col">
-                    <label>เบอร์โทร</label>
-                    <input type="text" name="phone_number" value="<?= $reserve->phone_number ?>" class="border border-black rounded-md px-2 py-1" placeholder="เบอร์โทร" required>
-                </div>
+            <input type="hidden" name="id" value="<?= $reserve->id ?>">
 
-                <div class="flex flex-col">
-                    <label>สังกัด</label>
-                    <select name="affiliation" id="" class="border border-black rounded-md px-2 py-1" required>
-                        <option value="" disabled selected>เลือก</option>
-                        <option value="สลก." <?= $reserve->affiliation == 'สลก.' ? 'selected' : '' ?>>สลก.</option>
-                        <option value="กปอ." <?= $reserve->affiliation == 'กปอ.' ? 'selected' : '' ?>>กปอ.</option>
-                        <option value="กลก." <?= $reserve->affiliation == 'กลก.' ? 'selected' : '' ?>>กลก.</option>
-                        <option value="กยป." <?= $reserve->affiliation == 'กยป.' ? 'selected' : '' ?>>กยป.</option>
-                        <option value="กสร." <?= $reserve->affiliation == 'กสร.' ? 'selected' : '' ?>>กสร.</option>
-                        <option value="ศปส." <?= $reserve->affiliation == 'ศปส.' ? 'selected' : '' ?>>ศปส.</option>
-                        <option value="กจธ." <?= $reserve->affiliation == 'กจธ.' ? 'selected' : '' ?>>กจธ.</option>
-                        <option value="กพร." <?= $reserve->affiliation == 'กพร.' ? 'selected' : '' ?>>กพร.</option>
-                        <option value="ตส." <?= $reserve->affiliation == 'ตส.' ? 'selected' : '' ?>>ตส.</option>
-                        <option value="กกม." <?= $reserve->affiliation == 'กกม.' ? 'selected' : '' ?>>กกม.</option>
-                    </select>
-                </div>
+            <!-- แบ่งซ้ายขวา -->
+            <div class="flex gap-5 mb-5 items-start">
 
-                <div class="flex flex-col">
-                    <label>หัวข้อประชุม</label>
-                    <input type="text" name="meeting_topic" value="<?= $reserve->meeting_topic ?>"  class="border border-black rounded-md px-2 py-1" placeholder="หัวข้อประชุม" required>
-                </div>
+                <!-- ฝั่งซ้าย -->
+                <div class="w-1/2 p-4 flex flex-col gap-3">
 
-                <div class="flex flex-col">
-                    <label class="mb-2">ขนาดห้องประชุม Zoom</label>
+                    <h2 class="text-lg font-bold pb-2">
+                        ข้อมูลผู้จอง
+                    </h2>
 
-                    <label class="flex items-center gap-2">
-                        <input type="radio" 
-                            name="room_size" 
-                            value="100"
-                            <?= $reserve->room_size == '100' ? 'checked' : '' ?>>
+                    <div class="flex flex-col">
+                        <label class="mb-1 font-medium">ชื่อ - นามสกุล</label>
 
-                        <span>100 คน</span>
-                    </label>
-
-                    <label class="flex items-center gap-2">
-                        <input type="radio" 
-                            name="room_size" 
-                            value="500"
-                            <?= $reserve->room_size == '500' ? 'checked' : '' ?>>
-
-                        <span>500 คน</span>
-                    </label>
-                </div>
-
-                <!-- วันเวลาเริ่มประชุม -->
-                <div class="flex flex-col gap-2">
-                    <label>วัน เวลา เริ่มประชุม</label>
-
-                    <div class="flex items-center gap-2">
-                        <input type="text" id="start_date" name="start_date" value="<?= $reserve->start_date ?>"
-                            placeholder="เลือกวัน"
-                            class="border border-black rounded-md px-2 py-1 w-full">
-
-                        <input type="text" id="start_time" name="start_time" value="<?= $reserve->start_time ?>"
-                            placeholder="เลือกเวลา"
-                            class="border border-black rounded-md px-2 py-1 w-full">
+                        <input type="text"
+                            name="name"
+                            value="<?= $reserve->name ?>"
+                            class="border border-black rounded-lg px-3 py-2"
+                            placeholder="ชื่อ - นามสกุล"
+                            required>
                     </div>
-                </div>
 
-                <!-- วันเวลาเลิกประชุม -->
-                <div class="flex flex-col gap-2">
-                    <label>วัน เวลา เลิกประชุม</label>
+                    <div class="flex flex-col">
+                        <label class="mb-1 font-medium">Email</label>
 
-                    <div class="flex items-center gap-2">
-                        <input type="text" id="end_date" name="end_date" value="<?= $reserve->end_date ?>"
-                            placeholder="เลือกวัน"
-                            class="border border-black rounded-md px-2 py-1 w-full">
-
-                        <input type="text" id="end_time" name="end_time" value="<?= $reserve->end_time ?>"
-                            placeholder="เลือกเวลา"
-                            class="border border-black rounded-md px-2 py-1 w-full">
+                        <input type="email"
+                            name="email"
+                            value="<?= $reserve->email ?>"
+                            class="border border-black rounded-lg px-3 py-2"
+                            placeholder="Email"
+                            required>
                     </div>
+
+                    <div class="flex flex-col">
+                        <label class="mb-1 font-medium">เบอร์โทร</label>
+
+                        <input type="text"
+                            name="phone_number"
+                            value="<?= $reserve->phone_number ?>"
+                            class="border border-black rounded-lg px-3 py-2"
+                            placeholder="เบอร์โทร"
+                            required>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label class="mb-1 font-medium">สังกัด</label>
+
+                        <select name="affiliation"
+                            class="border border-black rounded-lg px-3 py-2"
+                            required>
+
+                            <option value="" disabled selected>เลือก</option>
+
+                            <option value="สลก." <?= $reserve->affiliation == 'สลก.' ? 'selected' : '' ?>>สลก.</option>
+                            <option value="กปอ." <?= $reserve->affiliation == 'กปอ.' ? 'selected' : '' ?>>กปอ.</option>
+                            <option value="กลก." <?= $reserve->affiliation == 'กลก.' ? 'selected' : '' ?>>กลก.</option>
+                            <option value="กยป." <?= $reserve->affiliation == 'กยป.' ? 'selected' : '' ?>>กยป.</option>
+                            <option value="กสร." <?= $reserve->affiliation == 'กสร.' ? 'selected' : '' ?>>กสร.</option>
+                            <option value="ศปส." <?= $reserve->affiliation == 'ศปส.' ? 'selected' : '' ?>>ศปส.</option>
+                            <option value="กจธ." <?= $reserve->affiliation == 'กจธ.' ? 'selected' : '' ?>>กจธ.</option>
+                            <option value="กพร." <?= $reserve->affiliation == 'กพร.' ? 'selected' : '' ?>>กพร.</option>
+                            <option value="ตส." <?= $reserve->affiliation == 'ตส.' ? 'selected' : '' ?>>ตส.</option>
+                            <option value="กกม." <?= $reserve->affiliation == 'กกม.' ? 'selected' : '' ?>>กกม.</option>
+
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label class="mb-1 font-medium">หัวข้อประชุม</label>
+
+                        <input type="text"
+                            name="meeting_topic"
+                            value="<?= $reserve->meeting_topic ?>"
+                            class="border border-black rounded-lg px-3 py-2"
+                            placeholder="หัวข้อประชุม"
+                            required>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">ขนาดห้องประชุม Zoom</label>
+
+                        <label class="flex items-center gap-2">
+                            <input type="radio"
+                                name="room_size"
+                                value="100"
+                                <?= $reserve->room_size == '100' ? 'checked' : '' ?>>
+
+                            <span>100 คน</span>
+                        </label>
+
+                        <label class="flex items-center gap-2">
+                            <input type="radio"
+                                name="room_size"
+                                value="500"
+                                <?= $reserve->room_size == '500' ? 'checked' : '' ?>>
+
+                            <span>500 คน</span>
+                        </label>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">วัน เวลา เริ่มประชุม</label>
+
+                        <div class="flex gap-3">
+                            <input type="text"
+                                id="start_date"
+                                name="start_date"
+                                value="<?= $reserve->start_date ?>"
+                                placeholder="เลือกวัน"
+                                class="border border-black rounded-lg px-3 py-2 w-full">
+
+                            <input type="text"
+                                id="start_time"
+                                name="start_time"
+                                value="<?= $reserve->start_time ?>"
+                                placeholder="เลือกเวลา"
+                                class="border border-black rounded-lg px-3 py-2 w-full">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="font-medium">วัน เวลา เลิกประชุม</label>
+
+                        <div class="flex gap-3">
+                            <input type="text"
+                                id="end_date"
+                                name="end_date"
+                                value="<?= $reserve->end_date ?>"
+                                placeholder="เลือกวัน"
+                                class="border border-black rounded-lg px-3 py-2 w-full">
+
+                            <input type="text"
+                                id="end_time"
+                                name="end_time"
+                                value="<?= $reserve->end_time ?>"
+                                placeholder="เลือกเวลา"
+                                class="border border-black rounded-lg px-3 py-2 w-full">
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- ปุ่ม -->
-                <div class="flex gap-2">
-                    <a href="<?= base_url('index.php/request') ?>" 
-                    class="w-1/2 text-center bg-gray-400 text-white rounded-md py-2 hover:bg-gray-500">
-                    ย้อนกลับ
-                    </a>
+                <!-- ฝั่งขวา -->
+                <div class="w-1/2 p-6 flex flex-col gap-5 h-full">
 
-                    <button type="submit" 
-                            class="w-1/2 bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600">
-                    บันทึก
-                    </button>
+                    <h2 class="text-lg font-bold pb-2">
+                        ข้อมูลห้อง Zoom
+                    </h2>
+
+                    <div class="flex flex-col">
+                        <label class="mb-1 font-medium">ห้อง</label>
+
+                        <select name="zoom_number"
+                            class="border border-black rounded-lg px-3 py-2"
+                            required>
+
+                            <option value="" disabled selected>เลือก</option>
+
+                            <option value="Zoom 1" <?= $reserve->zoom_number == 'Zoom 1' ? 'selected' : '' ?>>Zoom 1</option>
+                            <option value="Zoom 2" <?= $reserve->zoom_number == 'Zoom 2' ? 'selected' : '' ?>>Zoom 2</option>
+                            <option value="Zoom 3" <?= $reserve->zoom_number == 'Zoom 3' ? 'selected' : '' ?>>Zoom 3</option>
+                            <option value="Zoom 4" <?= $reserve->zoom_number == 'Zoom 4' ? 'selected' : '' ?>>Zoom 4</option>
+                            <option value="Zoom 5" <?= $reserve->zoom_number == 'Zoom 5' ? 'selected' : '' ?>>Zoom 5</option>
+                            <option value="Zoom 6" <?= $reserve->zoom_number == 'Zoom 6' ? 'selected' : '' ?>>Zoom 6</option>
+                            <option value="Zoom 7" <?= $reserve->zoom_number == 'Zoom 7' ? 'selected' : '' ?>>Zoom 7</option>
+                            <option value="Zoom 8" <?= $reserve->zoom_number == 'Zoom 8' ? 'selected' : '' ?>>Zoom 8</option>
+                            <option value="Zoom 9" <?= $reserve->zoom_number == 'Zoom 9' ? 'selected' : '' ?>>Zoom 9</option>
+                            <option value="Zoom 10" <?= $reserve->zoom_number == 'Zoom 10' ? 'selected' : '' ?>>Zoom 10</option>
+                            <option value="Zoom 11" <?= $reserve->zoom_number == 'Zoom 11' ? 'selected' : '' ?>>Zoom 11</option>
+
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col flex-1">
+                        <label class="mb-1 font-medium">รายละเอียด</label>
+
+                        <textarea
+                            name="details"
+                            rows="12"
+                            required
+                            class="border border-black rounded-lg px-3 py-3 resize-none flex-1"><?= $reserve->details ?></textarea>
+                    </div>
+
+                    <!-- ปุ่ม -->
+                    <div class="flex justify-center gap-4 pt-4 mt-auto">
+
+                        <a href="<?= base_url('index.php/request') ?>"
+                            class="w-40 text-center bg-gray-400 text-white rounded-lg py-2 px-4 hover:bg-gray-500 transition">
+
+                            ย้อนกลับ
+
+                        </a>
+
+                        <button type="submit"
+                            class="w-40 bg-blue-500 text-white rounded-lg py-2 px-4 hover:bg-blue-600 transition">
+
+                            บันทึก
+
+                        </button>
+
+                    </div>
+
                 </div>
 
-            </form>
+            </div>
+        </form>
 
-        </div>
     </div>
 
 </div>

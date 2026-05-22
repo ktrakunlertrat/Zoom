@@ -134,12 +134,25 @@
                             </td>
                             <td class="border border-black px-3 py-2 text-center">
 
-                                <a href="<?= base_url('index.php/addzoom/index/'.$row->id) ?>"
-                                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm">
+                                <?php if(empty($row->zoom_number)): ?>
 
-                                    เพิ่ม
+                                    <a href="<?= base_url('index.php/addzoom/index/'.$row->id) ?>"
+                                        class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm">
 
-                                </a>
+                                        เพิ่ม
+
+                                    </a>
+
+                                <?php else: ?>
+
+                                    <a href="<?= base_url('index.php/addzoom/index/'.$row->id) ?>"
+                                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md text-sm">
+
+                                        แก้ไข
+
+                                    </a>
+
+                                <?php endif; ?>
 
                             </td>
 

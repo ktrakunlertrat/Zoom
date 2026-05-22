@@ -42,13 +42,30 @@ class Addzoom extends CI_Controller {
         $this->load->database();
 
         $data = array(
+            'name' => $this->input->post('name'),
+            'email' => $this->input->post('email'),
+            'phone_number' => $this->input->post('phone_number'),
+            'affiliation' => $this->input->post('affiliation'),
+            'meeting_topic' => $this->input->post('meeting_topic'),
+            'room_size' => $this->input->post('room_size'),
+            'start_date' => $this->convertThaiDate($this->input->post('start_date')),
+            'start_time' => $this->input->post('start_time'),
+            'end_date' => $this->convertThaiDate($this->input->post('end_date')),
+            'end_time' => $this->input->post('end_time'),
             'zoom_number' => $this->input->post('zoom_number'),
-            'zoom_password' => $this->input->post('zoom_password')
+            'details' => $this->input->post('details')
         );
 
         $this->db->where('id', $id);
         $this->db->update('reserve', $data);
 
         redirect('request');
+
+        echo "
+        <script>
+            alert('บันทึกข้อมูลสำเร็จ');
+            window.location.href='".base_url('index.php/request')."';
+        </script>
+        ";
     }
 }
