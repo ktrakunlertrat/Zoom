@@ -17,6 +17,32 @@ class Addzoom extends CI_Controller {
         }
     }
 
+    private function thaiDateFormat($date)
+    {
+        if(empty($date)){
+            return '';
+        }
+
+        $timestamp = strtotime($date);
+
+        $day = date('d', $timestamp);
+        $month = date('m', $timestamp);
+        $year = date('Y', $timestamp) + 543;
+
+        return $day.'/'.$month.'/'.$year;
+    }
+
+    private function convertThaiDate($date)
+    {
+        $explode = explode('/', $date);
+
+        $day = $explode[0];
+        $month = $explode[1];
+        $year = $explode[2] - 543;
+
+        return $year . '-' . $month . '-' . $day;
+    }
+
     public function index($id = null)
     {
         $this->load->database();
@@ -31,6 +57,11 @@ class Addzoom extends CI_Controller {
         if(!$data['reserve']){
             show_404();
         }
+
+        // แปลงวันที่เป็น พ.ศ.
+        $data['reserve']->start_date = $this->thaiDateFormat($data['reserve']->start_date);
+
+        $data['reserve']->end_date = $this->thaiDateFormat($data['reserve']->end_date);
 
         $this->load->view('header');
         $this->load->view('navbar');
@@ -58,8 +89,6 @@ class Addzoom extends CI_Controller {
 
         $this->db->where('id', $id);
         $this->db->update('reserve', $data);
-
-        redirect('request');
 
         echo "
         <script>

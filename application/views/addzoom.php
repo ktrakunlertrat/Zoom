@@ -4,7 +4,9 @@
 <div class="min-h-screen p-4">
 
     <!-- Card -->
-    <div class="bg-white/50 backdrop-blur-sm border border-black rounded-2xl p-5 w-full max-w-6xl mx-auto shadow-lg max-h-[90vh]">
+    <div class="bg-white/50 backdrop-blur-sm border border-black rounded-2xl 
+            p-5 w-full max-w-6xl mx-auto shadow-lg 
+            max-h-[80vh] mb-6">
 
         <form id="reserveForm" 
             action="<?= base_url('index.php/addzoom/update/'.$reserve->id) ?>"
@@ -28,7 +30,7 @@
                         <input type="text"
                             name="name"
                             value="<?= $reserve->name ?>"
-                            class="border border-black rounded-lg px-3 py-2"
+                            class="border border-black rounded-lg px-2 py-1"
                             placeholder="ชื่อ - นามสกุล"
                             required>
                     </div>
@@ -39,7 +41,7 @@
                         <input type="email"
                             name="email"
                             value="<?= $reserve->email ?>"
-                            class="border border-black rounded-lg px-3 py-2"
+                            class="border border-black rounded-lg px-2 py-1"
                             placeholder="Email"
                             required>
                     </div>
@@ -50,7 +52,7 @@
                         <input type="text"
                             name="phone_number"
                             value="<?= $reserve->phone_number ?>"
-                            class="border border-black rounded-lg px-3 py-2"
+                            class="border border-black rounded-lg px-2 py-1"
                             placeholder="เบอร์โทร"
                             required>
                     </div>
@@ -59,7 +61,7 @@
                         <label class="mb-1 font-medium">สังกัด</label>
 
                         <select name="affiliation"
-                            class="border border-black rounded-lg px-3 py-2"
+                            class="border border-black rounded-lg px-2 py-1"
                             required>
 
                             <option value="" disabled selected>เลือก</option>
@@ -84,7 +86,7 @@
                         <input type="text"
                             name="meeting_topic"
                             value="<?= $reserve->meeting_topic ?>"
-                            class="border border-black rounded-lg px-3 py-2"
+                            class="border border-black rounded-lg px-2 py-1"
                             placeholder="หัวข้อประชุม"
                             required>
                     </div>
@@ -120,14 +122,14 @@
                                 name="start_date"
                                 value="<?= $reserve->start_date ?>"
                                 placeholder="เลือกวัน"
-                                class="border border-black rounded-lg px-3 py-2 w-full">
+                                class="border border-black rounded-lg px-2 py-1 w-full">
 
                             <input type="text"
                                 id="start_time"
                                 name="start_time"
                                 value="<?= $reserve->start_time ?>"
                                 placeholder="เลือกเวลา"
-                                class="border border-black rounded-lg px-3 py-2 w-full">
+                                class="border border-black rounded-lg px-2 py-1 w-full">
                         </div>
                     </div>
 
@@ -140,14 +142,14 @@
                                 name="end_date"
                                 value="<?= $reserve->end_date ?>"
                                 placeholder="เลือกวัน"
-                                class="border border-black rounded-lg px-3 py-2 w-full">
+                                class="border border-black rounded-lg px-2 py-1 w-full">
 
                             <input type="text"
                                 id="end_time"
                                 name="end_time"
                                 value="<?= $reserve->end_time ?>"
                                 placeholder="เลือกเวลา"
-                                class="border border-black rounded-lg px-3 py-2 w-full">
+                                class="border border-black rounded-lg px-2 py-1 w-full">
                         </div>
                     </div>
 
@@ -164,7 +166,7 @@
                         <label class="mb-1 font-medium">ห้อง</label>
 
                         <select name="zoom_number"
-                            class="border border-black rounded-lg px-3 py-2"
+                            class="border border-black rounded-lg px-2 py-1"
                             required>
 
                             <option value="" disabled selected>เลือก</option>
@@ -227,25 +229,14 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-function toThaiYear(date) {
-  const year = date.getFullYear() + 543;
-  const month = ("0" + (date.getMonth() + 1)).slice(-2);
-  const day = ("0" + date.getDate()).slice(-2);
-  return `${day}/${month}/${year}`;
-}
-
 flatpickr("#start_date", {
-  dateFormat: "Y-m-d",
-  onChange: function(selectedDates, dateStr, instance) {
-    instance.input.value = toThaiYear(selectedDates[0]);
-  }
+  dateFormat: "d/m/Y",
+  defaultDate: document.getElementById("start_date").value
 });
 
 flatpickr("#end_date", {
-  dateFormat: "Y-m-d",
-  onChange: function(selectedDates, dateStr, instance) {
-    instance.input.value = toThaiYear(selectedDates[0]);
-  }
+  dateFormat: "d/m/Y",
+  defaultDate: document.getElementById("end_date").value
 });
 
 flatpickr("#start_time", {

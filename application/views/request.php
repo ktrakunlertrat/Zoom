@@ -101,7 +101,10 @@
                             </td>
 
                             <td class="border border-black px-3 py-2 text-center">
-                                <?= $row->start_date ?>
+                                <?php
+                                    $start_date = new DateTime($row->start_date);
+                                    echo $start_date->format('d/m/') . ($start_date->format('Y') + 543);
+                                ?>
                             </td>
 
                             <td class="border border-black px-3 py-2 text-center">
@@ -109,7 +112,10 @@
                             </td>
 
                             <td class="border border-black px-3 py-2 text-center">
-                                <?= $row->end_date ?>
+                                <?php
+                                    $end_date = new DateTime($row->end_date);
+                                    echo $end_date->format('d/m/') . ($end_date->format('Y') + 543);
+                                ?>
                             </td>
 
                             <td class="border border-black px-3 py-2 text-center">
