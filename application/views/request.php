@@ -173,12 +173,25 @@
 
                                 <?php else: ?>
 
-                                    <a href="<?= base_url('index.php/sendemail/index/'.$row->id) ?>"
-                                        class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm">
+                                    <?php if($row->email_sent == 1): ?>
 
-                                        ส่งอีเมล์
+                                        <a href="<?= base_url('index.php/sendemail/index/'.$row->id) ?>"
+                                            class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md text-sm">
 
-                                    </a>
+                                            ส่งอีกครั้ง
+
+                                        </a>
+
+                                    <?php else: ?>
+
+                                        <a href="<?= base_url('index.php/sendemail/index/'.$row->id) ?>"
+                                            class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm">
+
+                                            ส่งอีเมล์
+
+                                        </a>
+
+                                    <?php endif; ?>
 
                                 <?php endif; ?>
 

@@ -104,7 +104,7 @@ class Sendemail extends CI_Controller {
             // ผู้ส่ง
             $mail->setFrom(
                 'deqpzoom2@gmail.com',
-                'Zoom Meeting'
+                'ระบบจองห้องประชุมออนไลน์ CCE'
             );
 
             // ผู้รับ
@@ -114,7 +114,55 @@ class Sendemail extends CI_Controller {
 
             $mail->Subject = $subject;
 
-            $mail->Body = $details;
+            $mail->Body = '
+<div style="
+    font-family: Arial, sans-serif;
+    font-size:16px;
+    line-height:1.8;
+    color:#222;
+">
+
+    <p>
+        <strong>ชื่อผู้จอง :</strong>
+        '.$reserve->name.'
+        สังกัด '.$reserve->affiliation.'
+        Tel.'.$reserve->phone_number.'
+        <a href="mailto:'.$reserve->email.'">
+            '.$reserve->email.'
+        </a>
+    </p>
+
+    <br>
+
+    <p>
+        ลิงก์ห้องสำหรับการประชุม วันที่
+        '.$reserve->start_date.'
+        เวลา
+        '.$reserve->start_time.' - '.$reserve->end_time.'
+        (เปิดห้องได้ 15 นาที ก่อนการประชุม)
+    </p>
+
+    <p>
+        <strong>Host Key :</strong>
+        <span style="
+            color:#1d4ed8;
+            font-weight:bold;
+        ">
+            106637
+        </span>
+        (สำหรับโฮสเท่านั้น)
+    </p>
+
+    <br>
+
+    <div style="
+        white-space: normal;
+    ">
+        '.nl2br($reserve->details).'
+    </div>
+
+</div>
+';
 
             // แนบไฟล์ (multiple)
             if (!empty($_FILES['attachments']['name'][0])) {
@@ -129,11 +177,35 @@ class Sendemail extends CI_Controller {
                     $_FILES['file']['error']    = $files['error'][$i];
                     $_FILES['file']['size']     = $files['size'][$i];
 
-                    $mail->addAttachment($_FILES['file']['tmp_name'], $_FILES['file']['name']);
+                    $allowed = [
+                        'image/jpeg',
+                        'image/png',
+                        'image/gif',
+                        'image/webp',
+                        'application/pdf'
+                    ];
+
+                    $fileType = mime_content_type($_FILES['file']['tmp_name']);
+
+                    if(
+                        in_array($fileType, $allowed)
+                        && $_FILES['file']['size'] <= 10485760
+                    ){
+                        $mail->addAttachment(
+                            $_FILES['file']['tmp_name'],
+                            $_FILES['file']['name']
+                        );
+                    }
                 }
             }
 
             $mail->send();
+
+            // update สถานะส่งอีเมล์
+            $this->db->where('id', $id);
+            $this->db->update('reserve', [
+                'email_sent' => 1
+            ]);
 
             $this->session->set_flashdata(
                 'success',
