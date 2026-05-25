@@ -63,6 +63,19 @@
 
             </form>
 
+            <!-- Total Booking -->
+            <div class="bg-blue-500 text-white rounded-xl p-5 shadow mb-6 w-[300px]">
+
+                <h2 class="text-lg font-medium">
+                    จำนวนการจองทั้งหมด
+                </h2>
+
+                <p class="text-4xl font-bold mt-2">
+                    <?= $total_booking ?> ครั้ง
+                </p>
+
+            </div>
+
             <!-- Charts Wrapper -->
             <div class="flex gap-6 items-start mt-6">
 

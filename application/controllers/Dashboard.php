@@ -17,32 +17,47 @@ class Dashboard extends CI_Controller {
 
 	public function index()
     {
-        // รับค่า filter
+        // filter
         $start_date = $this->input->get('start_date');
-        $end_date   = $this->input->get('end_date');
+        $end_date = $this->input->get('end_date');
+
+        $where = "";
+
+        if($start_date && $end_date){
+
+            $where = "WHERE created_at BETWEEN '$start_date 00:00:00' 
+                    AND '$end_date 23:59:59'";
+        }
 
         /*
         |--------------------------------------------------------------------------
-        | BAR CHART
+        | จำนวนการจองทั้งหมด
         |--------------------------------------------------------------------------
         */
 
-        $this->db->select('zoom_number, COUNT(*) as total');
-        $this->db->from('reserve');
+        $totalQuery = $this->db->query("
+            SELECT COUNT(*) as total_booking
+            FROM reserve
+            $where
+        ");
 
-        // filter created_at
-        if(!empty($start_date)){
-            $this->db->where('DATE(created_at) >=', $start_date);
-        }
+        $data['total_booking'] = $totalQuery->row()->total_booking;
 
-        if(!empty($end_date)){
-            $this->db->where('DATE(created_at) <=', $end_date);
-        }
+        /*
+        |--------------------------------------------------------------------------
+        | Bar Chart
+        |--------------------------------------------------------------------------
+        */
 
-        $this->db->group_by('zoom_number');
-        $this->db->order_by('zoom_number', 'ASC');
+        $query = $this->db->query("
+            SELECT zoom_number, COUNT(*) as total
+            FROM reserve
+            $where
+            GROUP BY zoom_number
+            ORDER BY zoom_number ASC
+        ");
 
-        $results = $this->db->get()->result();
+        $results = $query->result();
 
         $labels = [];
         $totals = [];
@@ -69,65 +84,27 @@ class Dashboard extends CI_Controller {
 
         /*
         |--------------------------------------------------------------------------
-        | PIE CHART
+        | Pie Chart
         |--------------------------------------------------------------------------
         */
 
-        $affiliations = [
-            'สลก.',
-            'กปอ.',
-            'กลก.',
-            'กยป.',
-            'กสร.',
-            'ศปส.',
-            'กจธ.',
-            'กพร.',
-            'ตส.',
-            'กกม.'
-        ];
+        $affQuery = $this->db->query("
+            SELECT affiliation, COUNT(*) as total
+            FROM reserve
+            $where
+            GROUP BY affiliation
+        ");
 
-        $this->db->select('affiliation, COUNT(*) as total');
-        $this->db->from('reserve');
-
-        // filter created_at
-        if(!empty($start_date)){
-            $this->db->where('DATE(created_at) >=', $start_date);
-        }
-
-        if(!empty($end_date)){
-            $this->db->where('DATE(created_at) <=', $end_date);
-        }
-
-        $this->db->group_by('affiliation');
-
-        $affResults = $this->db->get()->result();
+        $affResults = $affQuery->result();
 
         $affLabels = [];
         $affTotals = [];
 
-        foreach($affiliations as $aff){
+        foreach($affResults as $row){
 
-            $affLabels[] = $aff;
-
-            $found = 0;
-
-            foreach($affResults as $row){
-
-                if($row->affiliation == $aff){
-
-                    $found = $row->total;
-                    break;
-                }
-            }
-
-            $affTotals[] = $found;
+            $affLabels[] = $row->affiliation;
+            $affTotals[] = $row->total;
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | SEND DATA
-        |--------------------------------------------------------------------------
-        */
 
         $data['labels'] = json_encode($labels);
         $data['totals'] = json_encode($totals);
