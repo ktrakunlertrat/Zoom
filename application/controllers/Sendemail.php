@@ -115,54 +115,20 @@ class Sendemail extends CI_Controller {
             $mail->Subject = $subject;
 
             $mail->Body = '
-<div style="
-    font-family: Arial, sans-serif;
-    font-size:16px;
-    line-height:1.8;
-    color:#222;
-">
+            <div style="
+                font-family: Arial, sans-serif;
+                font-size:16px;
+                line-height:1.8;
+                color:#222;
+            ">
+                <div style="
+                    white-space: normal;
+                ">
+                    '.nl2br($details).'
+                </div>
 
-    <p>
-        <strong>ชื่อผู้จอง :</strong>
-        '.$reserve->name.'
-        สังกัด '.$reserve->affiliation.'
-        Tel.'.$reserve->phone_number.'
-        <a href="mailto:'.$reserve->email.'">
-            '.$reserve->email.'
-        </a>
-    </p>
-
-    <br>
-
-    <p>
-        ลิงก์ห้องสำหรับการประชุม วันที่
-        '.$reserve->start_date.'
-        เวลา
-        '.$reserve->start_time.' - '.$reserve->end_time.'
-        (เปิดห้องได้ 15 นาที ก่อนการประชุม)
-    </p>
-
-    <p>
-        <strong>Host Key :</strong>
-        <span style="
-            color:#1d4ed8;
-            font-weight:bold;
-        ">
-            106637
-        </span>
-        (สำหรับโฮสเท่านั้น)
-    </p>
-
-    <br>
-
-    <div style="
-        white-space: normal;
-    ">
-        '.nl2br($reserve->details).'
-    </div>
-
-</div>
-';
+            </div>
+            ';
 
             // แนบไฟล์ (multiple)
             if (!empty($_FILES['attachments']['name'][0])) {
