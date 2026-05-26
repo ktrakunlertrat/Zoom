@@ -102,6 +102,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 👉 คลิก event
     eventClick: function(info) {
+
+      // ป้องกัน redirect
+      info.jsEvent.preventDefault();
+
+      // วันหยุดไทย ไม่ต้องทำอะไร
+      if(info.event.classNames.includes('holiday-event')){
+          return;
+      }
+      
       const dateStr = info.event.startStr;
 
       const date = new Date(info.event.start);
