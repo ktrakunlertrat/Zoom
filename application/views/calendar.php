@@ -89,9 +89,20 @@ document.addEventListener('DOMContentLoaded', function () {
       // 👉 ดึง event ของวันนั้น
       const events = calendar.getEvents().filter(ev => {
 
-          const startDate = ev.start.toISOString().split('T')[0];
+          const clickDate = new Date(dateStr);
 
-          return startDate === dateStr;
+          // start
+          const start = new Date(ev.start);
+          start.setHours(0,0,0,0);
+
+          // end
+          const end = ev.end ? new Date(ev.end) : new Date(ev.start);
+          end.setHours(0,0,0,0);
+
+          clickDate.setHours(0,0,0,0);
+
+          // เช็คว่าวันที่กด อยู่ระหว่าง start-end
+          return clickDate >= start && clickDate <= end;
 
       });
 
