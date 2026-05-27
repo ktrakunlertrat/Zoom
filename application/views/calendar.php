@@ -284,3 +284,17 @@ function closeModal() {
   document.getElementById('view_all').innerText = '';
 }
 </script>
+
+<style>
+    /* วันที่บนปฏิทิน */
+    .fc .fc-daygrid-day-top {
+        justify-content: flex-start !important;
+        padding-left: 6px;
+    }
+
+    /* เลขวันที่ */
+    .fc .fc-daygrid-day-number {
+        width: 100%;
+        text-align: left;
+    }
+</style>
