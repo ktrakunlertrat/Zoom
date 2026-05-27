@@ -87,7 +87,7 @@
 "ชื่อผู้จอง : {$reserve->name} , สังกัด {$reserve->affiliation} , Tel {$reserve->phone_number} , {$reserve->email}
 
 ลิงค์ห้องสำหรับการประชุม วันที่ {$reserve->start_date} เวลา {$reserve->start_time} - {$reserve->end_time} (เปิดห้องได้ 15 นาที  ก่อนการประชุม)
-Host Key : {ใส่ Host Key} (สำหรับโฮสเท่านั้น)
+Host Key : $host_key (สำหรับโฮสเท่านั้น)
 
 {$reserve->details}"
 ?></textarea>

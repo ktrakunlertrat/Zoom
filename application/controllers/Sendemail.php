@@ -37,6 +37,26 @@ class Sendemail extends CI_Controller {
         return $day.'/'.$month.'/'.$year;
     }
 
+    private function getHostKey($zoom_number)
+    {
+        $host_keys = [
+            'Zoom 1'  => '818883',
+            'Zoom 2'  => '106637',
+            'Zoom 3'  => '069823',
+            'Zoom 4'  => '535851',
+            'Zoom 5'  => '290450',
+            'Zoom 6'  => '356289',
+            'Zoom 7'  => '576720',
+            'Zoom 8'  => '458576',
+            'Zoom 9'  => '552543',
+            'Zoom 11' => '022852'
+        ];
+
+        return isset($host_keys[$zoom_number])
+            ? $host_keys[$zoom_number]
+            : '-';
+    }
+
     public function index($id = null)
     {
         $this->load->database();
@@ -56,6 +76,11 @@ class Sendemail extends CI_Controller {
         $data['reserve']->start_date = $this->thaiDateFormat($data['reserve']->start_date);
 
         $data['reserve']->end_date = $this->thaiDateFormat($data['reserve']->end_date);
+
+        // host key
+        $data['host_key'] = $this->getHostKey(
+            $data['reserve']->zoom_number
+        );
 
         $this->load->view('header');
         $this->load->view('navbar');

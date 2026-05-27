@@ -123,25 +123,11 @@
                                 <?= $row->end_time ?>
                             </td>
                             <td class="border border-black px-3 py-2 text-center">
-
-                                <?php if(empty($row->zoom_number)): ?>
-
-                                    <span class="text-red-500 px-2 py-1 rounded-md text-xs">
-                                        ว่าง
-                                    </span>
-
-                                <?php else: ?>
-
-                                    <span class="text-black px-2 py-1 rounded-md text-xs">
-                                        <?= $row->zoom_number ?>
-                                    </span>
-
-                                <?php endif; ?>
-
+                                <?= $row->zoom_number ?>
                             </td>
                             <td class="border border-black px-3 py-2 text-center">
 
-                                <?php if(empty($row->zoom_number)): ?>
+                                <?php if(empty($row->details)): ?>
 
                                     <a href="<?= base_url('index.php/addzoom/index/'.$row->id) ?>"
                                         class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm">
@@ -165,7 +151,7 @@
 
                             <td class="border border-black px-3 py-2 text-center">
 
-                                <?php if(empty($row->zoom_number)): ?>
+                                <?php if(empty($row->details)): ?>
 
                                     <span class="text-red-500 px-2 py-1 rounded-md text-xs">
                                         ส่งไม่ได้
