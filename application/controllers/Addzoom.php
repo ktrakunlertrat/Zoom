@@ -43,6 +43,137 @@ class Addzoom extends CI_Controller {
         return $year . '-' . $month . '-' . $day;
     }
 
+    private function generateZoomNumber(
+        $room_size,
+        $start_date,
+        $end_date,
+        $exclude_id = null
+    )
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | ห้อง 100 คน
+        |--------------------------------------------------------------------------
+        */
+
+        if($room_size == '100'){
+
+            $all_zoom = [
+                'Zoom 1',
+                'Zoom 2',
+                'Zoom 3',
+                'Zoom 4',
+                'Zoom 5',
+                'Zoom 6',
+                'Zoom 7',
+                'Zoom 8',
+                'Zoom 9'
+            ];
+
+            $sql = "
+                SELECT zoom_number
+                FROM reserve
+                WHERE room_size = '100'
+            ";
+
+            $params = [];
+
+            // ไม่เช็ค record ตัวเอง
+            if($exclude_id){
+
+                $sql .= " AND id != ?";
+                $params[] = $exclude_id;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | เช็ควันชนกัน
+            |--------------------------------------------------------------------------
+            | NOT (
+            |     end_date < start ใหม่
+            |     OR
+            |     start_date > end ใหม่
+            | )
+            */
+
+            $sql .= "
+                AND NOT (
+                    end_date < ?
+                    OR start_date > ?
+                )
+            ";
+
+            $params[] = $start_date;
+            $params[] = $end_date;
+
+            $query = $this->db->query($sql, $params);
+
+            $used_zoom = [];
+
+            foreach($query->result() as $row){
+
+                $used_zoom[] = $row->zoom_number;
+            }
+
+            $available_zoom = array_diff(
+                $all_zoom,
+                $used_zoom
+            );
+
+            if(empty($available_zoom)){
+
+                return false;
+            }
+
+            return array_values($available_zoom)[0];
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | ห้อง 500 คน
+        |--------------------------------------------------------------------------
+        */
+
+        if($room_size == '500'){
+
+            $sql = "
+                SELECT id
+                FROM reserve
+                WHERE room_size = '500'
+                AND zoom_number = 'Zoom 11'
+            ";
+
+            $params = [];
+
+            if($exclude_id){
+
+                $sql .= " AND id != ?";
+                $params[] = $exclude_id;
+            }
+
+            $sql .= "
+                AND NOT (
+                    end_date < ?
+                    OR start_date > ?
+                )
+            ";
+
+            $params[] = $start_date;
+            $params[] = $end_date;
+
+            $query = $this->db->query($sql, $params);
+
+            if($query->num_rows() > 0){
+
+                return false;
+            }
+
+            return 'Zoom 11';
+        }
+
+        return false;
+    }
+
     public function index($id = null)
     {
         $this->load->database();
@@ -92,8 +223,26 @@ class Addzoom extends CI_Controller {
 
         $end_time = $this->input->post('end_time');
 
-        $zoom_number = $this->input->post('zoom_number');
         $details = $this->input->post('details');
+
+        $zoom_number = $this->generateZoomNumber(
+            $room_size,
+            $start_date,
+            $end_date,
+            $id
+        );
+
+        if(!$zoom_number){
+
+            echo "
+            <script>
+                alert('ไม่มีห้อง Zoom ว่างในช่วงวันดังกล่าว');
+                history.back();
+            </script>
+            ";
+
+            return;
+        }
 
         // รวมข้อมูล
         $data = array(

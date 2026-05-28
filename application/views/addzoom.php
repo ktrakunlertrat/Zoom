@@ -163,27 +163,14 @@
                     </h2>
 
                     <div class="flex flex-col">
-                        <label class="mb-1 font-medium">ห้อง</label>
+                        <label class="mb-1 font-medium">
+                            ห้อง Zoom
+                        </label>
 
-                        <select name="zoom_number"
-                            class="border border-black rounded-lg px-2 py-1"
-                            required>
-
-                            <option value="" disabled selected>เลือก</option>
-
-                            <option value="Zoom 1" <?= $reserve->zoom_number == 'Zoom 1' ? 'selected' : '' ?>>Zoom 1</option>
-                            <option value="Zoom 2" <?= $reserve->zoom_number == 'Zoom 2' ? 'selected' : '' ?>>Zoom 2</option>
-                            <option value="Zoom 3" <?= $reserve->zoom_number == 'Zoom 3' ? 'selected' : '' ?>>Zoom 3</option>
-                            <option value="Zoom 4" <?= $reserve->zoom_number == 'Zoom 4' ? 'selected' : '' ?>>Zoom 4</option>
-                            <option value="Zoom 5" <?= $reserve->zoom_number == 'Zoom 5' ? 'selected' : '' ?>>Zoom 5</option>
-                            <option value="Zoom 6" <?= $reserve->zoom_number == 'Zoom 6' ? 'selected' : '' ?>>Zoom 6</option>
-                            <option value="Zoom 7" <?= $reserve->zoom_number == 'Zoom 7' ? 'selected' : '' ?>>Zoom 7</option>
-                            <option value="Zoom 8" <?= $reserve->zoom_number == 'Zoom 8' ? 'selected' : '' ?>>Zoom 8</option>
-                            <option value="Zoom 9" <?= $reserve->zoom_number == 'Zoom 9' ? 'selected' : '' ?>>Zoom 9</option>
-                            <option value="Zoom 10" <?= $reserve->zoom_number == 'Zoom 10' ? 'selected' : '' ?>>Zoom 10</option>
-                            <option value="Zoom 11" <?= $reserve->zoom_number == 'Zoom 11' ? 'selected' : '' ?>>Zoom 11</option>
-
-                        </select>
+                        <input type="text"
+                            value="<?= $reserve->zoom_number ?>"
+                            class="border border-black rounded-lg px-2 py-1 bg-gray-100"
+                            readonly>
                     </div>
 
                     <div class="flex flex-col flex-1">
