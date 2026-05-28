@@ -68,6 +68,7 @@
                             <th class="border border-black px-3 py-2">ห้อง</th>
                             <th class="border border-black px-3 py-2">เพิ่มห้องประชุม</th>
                             <th class="border border-black px-3 py-2">ส่งอีเมล์</th>
+                            <th class="border border-black px-3 py-2">ลบ</th>
                         </tr>
 
                     </thead>
@@ -183,6 +184,18 @@
 
                             </td>
 
+                            <td class="border border-black px-3 py-2 text-center">
+
+                                <a href="<?= base_url('index.php/request/delete/'.$row->id) ?>"
+                                    onclick="return confirm('ยืนยันการลบข้อมูลนี้ ?')"
+                                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm">
+
+                                    ลบ
+
+                                </a>
+
+                            </td>
+
                         </tr>
 
                         <?php endforeach; ?>
@@ -190,7 +203,7 @@
                     <?php else: ?>
 
                         <tr>
-                            <td colspan="9" class="border border-black px-3 py-4 text-center">
+                            <td colspan="13" class="border border-black px-3 py-4 text-center">
                                 ไม่มีข้อมูล
                             </td>
                         </tr>

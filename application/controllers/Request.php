@@ -88,4 +88,44 @@ class Request extends CI_Controller {
         $this->load->view('navbar');
         $this->load->view('request', $data);
     }
+
+    public function delete($id)
+    {
+        $this->load->database();
+
+        // เช็คข้อมูลก่อน
+        $reserve = $this->db
+            ->where('id', $id)
+            ->get('reserve')
+            ->row();
+
+        if(!$reserve){
+
+            show_404();
+        }
+
+        // ลบข้อมูล
+        $this->db->where('id', $id);
+
+        $delete = $this->db->delete('reserve');
+
+        if($delete){
+
+            echo "
+            <script>
+                alert('ลบข้อมูลสำเร็จ');
+                window.location.href='".base_url('index.php/request')."';
+            </script>
+            ";
+
+        } else {
+
+            echo "
+            <script>
+                alert('ลบข้อมูลไม่สำเร็จ');
+                history.back();
+            </script>
+            ";
+        }
+    }
 }
