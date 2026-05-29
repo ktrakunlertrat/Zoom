@@ -7,13 +7,16 @@
     <div class="flex items-center gap-5">
 
         <!-- Logo -->
-        <div class="shrink-0">
+        <a href="<?= base_url('index.php/') ?>" 
+            class="shrink-0 hover:scale-105 transition duration-200">
+
             <img 
                 src="<?= base_url('assets/images/dcce.png') ?>" 
                 alt="DCCE Logo"
-                class="w-24 h-24 object-contain drop-shadow-md"
+                class="w-24 h-24 object-contain drop-shadow-md cursor-pointer"
             >
-        </div>
+
+        </a>
 
         <!-- Text -->
         <div>
