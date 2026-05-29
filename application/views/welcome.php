@@ -24,13 +24,31 @@
 
         <?php if($this->session->userdata('logged_in')): ?>
 
-            <a href="<?= base_url('index.php/request') ?>" 
-            class="w-72 text-center border-2 border-black bg-gray-300 
-                    rounded-md text-black text-lg p-3
-                    hover:bg-gray-700 hover:text-white hover:scale-105 
-                    transition duration-200">
-                คำขอจองห้องประชุมออนไลน์
-            </a>
+            <div class="relative inline-block">
+
+                <a href="<?= base_url('index.php/request') ?>" 
+                    class="w-72 block text-center border-2 border-black bg-gray-300 
+                            rounded-md text-black text-lg p-3
+                            hover:bg-gray-700 hover:text-white hover:scale-105 
+                            transition duration-200">
+
+                        คำขอจองห้องประชุมออนไลน์
+                </a>
+
+                <?php if($unread_count > 0): ?>
+
+                    <span class="absolute -top-2 -right-2 
+                        bg-red-500 text-white text-sm font-bold
+                        rounded-full min-w-[32px] h-8 px-2
+                        flex items-center justify-center shadow-lg">
+
+                        <?= $unread_count ?>
+
+                    </span>
+
+                <?php endif; ?>
+
+            </div>
 
             <a href="<?= base_url('index.php/dashboard') ?>" 
             class="w-72 text-center border-2 border-black bg-gray-300 

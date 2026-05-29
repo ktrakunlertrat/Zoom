@@ -84,6 +84,13 @@ class Request extends CI_Controller {
         $data['total_pages'] = $total_pages;
         $data['keyword'] = $keyword;
 
+        // อ่านแจ้งเตือนแล้ว
+        $this->db->update('reserve', [
+            'is_read' => 1
+        ], [
+            'is_read' => 0
+        ]);
+
         $this->load->view('header');
         $this->load->view('navbar');
         $this->load->view('request', $data);

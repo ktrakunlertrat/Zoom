@@ -20,8 +20,20 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
+
+		$this->load->database();
+
+        $data['unread_count'] = 0;
+
+        if($this->session->userdata('logged_in')){
+
+            $data['unread_count'] = $this->db
+                ->where('is_read', 0)
+                ->count_all_results('reserve');
+        }
+
 		$this->load->view('header');
 		$this->load->view('navbar');
-		$this->load->view('welcome');
+		$this->load->view('welcome', $data);
 	}
 }

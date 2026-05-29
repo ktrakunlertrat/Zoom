@@ -156,7 +156,8 @@ class Reserve extends CI_Controller {
             'start_date' => $start_date,
             'start_time' => $this->input->post('start_time'),
             'end_date' => $end_date,
-            'end_time' => $this->input->post('end_time')
+            'end_time' => $this->input->post('end_time'),
+            'is_read' => 0
         );
 
         $this->db->insert('reserve', $data);
